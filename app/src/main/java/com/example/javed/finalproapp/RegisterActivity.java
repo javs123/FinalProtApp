@@ -1,9 +1,11 @@
 package com.example.javed.finalproapp;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,6 +23,7 @@ public class RegisterActivity extends AppCompatActivity {
     private Button mCreateBtn;
 
     private FirebaseAuth mAuth;
+    private ProgressDialog mProgress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +37,7 @@ public class RegisterActivity extends AppCompatActivity {
         mPassword = findViewById(R.id.reg_password);
         mCreateBtn = findViewById(R.id.reg_btn);
 
+        mProgress = new ProgressDialog(this);
 
         mCreateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -42,7 +46,18 @@ public class RegisterActivity extends AppCompatActivity {
                 String email = mEmail.getText().toString();
                 String password = mPassword.getText().toString();
 
-                createAccount(email, password);
+                if(TextUtils.isEmpty(email)){
+                    Toast.makeText(RegisterActivity.this,"Please Enter Email", Toast.LENGTH_LONG).show();
+                }else if (TextUtils.isEmpty(password)){
+                    Toast.makeText(RegisterActivity.this,"Please Enter Password", Toast.LENGTH_LONG).show();
+                }
+                else {
+                    mProgress.setTitle("Registering User");
+                    mProgress.setMessage("Wait while we set up your account");
+                    mProgress.setCanceledOnTouchOutside(false);
+                    mProgress.show();
+                    createAccount(email, password);
+                }
 
             }
         });
@@ -54,16 +69,27 @@ public class RegisterActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
+                            mProgress.dismiss();
                             Toast.makeText(RegisterActivity.this,"Register Successful", Toast.LENGTH_LONG).show();
-                            Intent completeProfileActivity = new Intent(RegisterActivity.this, MainActivity.class);
-                            startActivity(completeProfileActivity);
-                            finish();
+                            setup();
                         } else {
-                            Toast.makeText(RegisterActivity.this,"There was an ERROR", Toast.LENGTH_LONG).show();
+                            mProgress.hide();
+                            String error;
+                            error = task.getException().getMessage();
+                            Toast.makeText(RegisterActivity.this,"ERROR: "+error, Toast.LENGTH_LONG).show();
                         }
                     }
                 });
 
     }
 
+    private void setup() {
+        Intent completeProfileActivity = new Intent(RegisterActivity.this, SetupActivity.class);
+        completeProfileActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(completeProfileActivity);
+        finish();
+    }
+
+
 }
+

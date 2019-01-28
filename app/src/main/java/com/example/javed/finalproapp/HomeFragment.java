@@ -1,18 +1,39 @@
 package com.example.javed.finalproapp;
-
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
+        import android.support.v4.app.Fragment;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+        import android.view.View;
+        import android.view.ViewGroup;
 
+import java.util.ArrayList;
+import java.util.List;
+
+
+/**
+ * A simple {@link Fragment} subclass.
+ */
 public class HomeFragment extends Fragment {
 
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_home, container, false);
+    private RecyclerView user_list_view;
+    private List<Users> users_list;
+
+    public HomeFragment() {
+        // Required empty public constructor
     }
+
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_home, container, false);
+
+        users_list = new ArrayList<>();
+        user_list_view = getActivity().findViewById(R.id.other_user_list_view);
+
+
+        // Inflate the layout for this fragment
+        return view;
+    }
+
 }

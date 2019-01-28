@@ -1,9 +1,11 @@
 package com.example.javed.finalproapp;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,7 +20,7 @@ public class SignInActivity extends AppCompatActivity {
     private EditText mSignInEmail;
     private EditText mSignInPassword;
     private Button mSignInBtn;
-
+    private ProgressDialog mSignInProgress;
     private FirebaseAuth mAuth;
 
     @Override
@@ -29,6 +31,9 @@ public class SignInActivity extends AppCompatActivity {
         mSignInEmail = findViewById(R.id.signin_email_input);
         mSignInPassword = findViewById(R.id.sign_password_input);
         mSignInBtn = findViewById(R.id.signin_btn);
+        mSignInProgress = new ProgressDialog(this);
+
+
 
         //firebase auth
         mAuth = FirebaseAuth.getInstance();
@@ -41,7 +46,20 @@ public class SignInActivity extends AppCompatActivity {
                 String SignInPasswordInput = mSignInPassword.getText().toString();
 
 
-                signInUser(SignInEmailInput,SignInPasswordInput);
+                if(TextUtils.isEmpty(SignInEmailInput)){
+                    Toast.makeText(SignInActivity.this,"Please Enter Email and Try Again", Toast.LENGTH_LONG).show();
+
+                }else if(TextUtils.isEmpty(SignInPasswordInput)) {
+                    Toast.makeText(SignInActivity.this,"Please Enter Password and Try Again", Toast.LENGTH_LONG).show();
+                }
+                else{
+                    mSignInProgress.setTitle("Signing In");
+                    mSignInProgress.setMessage("Please Wait");
+                    mSignInProgress.setCanceledOnTouchOutside(false);
+                    mSignInProgress.show();
+                    signInUser(SignInEmailInput,SignInPasswordInput);
+                }
+
 
             }
         });
@@ -50,8 +68,6 @@ public class SignInActivity extends AppCompatActivity {
     }
 
     private void signInUser(String signInEmailInput, String signInPasswordInput) {
-
-
         mAuth.signInWithEmailAndPassword(signInEmailInput, signInPasswordInput)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -59,10 +75,13 @@ public class SignInActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             Toast.makeText(SignInActivity.this,"Successful", Toast.LENGTH_LONG).show();
                             Intent completeProfileActivity = new Intent(SignInActivity.this, MainActivity.class);
+                            completeProfileActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             startActivity(completeProfileActivity);
                             finish();
                         } else {
-                            Toast.makeText(SignInActivity.this,"There was an ERROR", Toast.LENGTH_LONG).show();
+                            mSignInProgress.hide();
+                            String getError = task.getException().getMessage();
+                            Toast.makeText(SignInActivity.this,"ERROR: "+getError, Toast.LENGTH_LONG).show();
                         }
                     }
                 });

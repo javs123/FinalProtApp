@@ -17,5 +17,35 @@
     <string name="enter_password">Password</string>
     <string name="logout">LogOut</string>
     <string name="signin">SignIn</string>
+    <string name="setup_name">Name</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="request_fragment">Requests fragment</string>
+    <string name="Setup_name">Name</string>
+    <string name="setup_save">Save</string>
+    <string name="search">Search</string>
+    <string name="filter">Filter</string>
+    <string name="item">Item</string>
+    <string name="chats_frag">Chats Fragment</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="setup_lastname_">LastName</string>
+    <string name="user_interests">Interests here</string>
+
+    <!--  List of User Interest-->
+    <string-array name="user_interest">
+        <item>Sports</item>
+        <item>Music</item>
+        <item>Traveling</item>
+        <item>Socializing</item>
+        <item>Painting</item>
+        <item>Dancing</item>
+        <item>Books</item>
+        <item>Computer</item>
+        <item>Games</item>
+        <item>Gardening</item>
+        <item>Animals</item>
+    </string-array>
 
 </resources>
