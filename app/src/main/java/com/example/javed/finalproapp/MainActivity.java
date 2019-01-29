@@ -53,6 +53,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mAuth = FirebaseAuth.getInstance();
         firebaseFirestore = FirebaseFirestore.getInstance();
         userID = mAuth.getCurrentUser().getUid();
+        final String email = mAuth.getCurrentUser().getEmail();
+
 
         //add toolbar to the main
         Toolbar toolbar = findViewById(R.id.toolbarP);
@@ -93,6 +95,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //                        Uri mainImageUri = Uri.parse(image);
 //                        setupName.setEnabled(false); //cant change name
                         userName.setText(name+" "+getlastname);
+                        userEmail.setText(email);
                         //Can add Placeholder if needed blog prt 6 25mns
                         Glide.with(MainActivity.this).load(image).into(drawerImage);
 
