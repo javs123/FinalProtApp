@@ -1,6 +1,7 @@
 package com.example.javed.finalproapp;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -14,8 +15,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -24,12 +28,21 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.List;
+
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private DrawerLayout drawer;
     private FirebaseAuth mAuth;
     private NavigationView navigationView;
     private FirebaseFirestore firebaseFirestore;
+    private String userID;
+
+    private CircleImageView drawerImage;
+    private TextView userName;
+    private TextView userEmail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +52,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //check if user has completed profile
         mAuth = FirebaseAuth.getInstance();
         firebaseFirestore = FirebaseFirestore.getInstance();
-
+        userID = mAuth.getCurrentUser().getUid();
 
         //add toolbar to the main
         Toolbar toolbar = findViewById(R.id.toolbarP);
@@ -53,12 +66,45 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //make fragments clickable
         navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        View header = navigationView.getHeaderView(0);
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar,
                 R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
+        drawerImage = header.findViewById(R.id.drawar_profile_image);
+        userName = header.findViewById(R.id.drawar_username);
+        userEmail = header.findViewById(R.id.drawar_useremail);
+        //getting data
+        firebaseFirestore.collection("Users").document(userID).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+
+                    if (task.getResult().exists()) {
+                        String name = task.getResult().getString("name");
+                        String image = task.getResult().getString("image");
+                        String getlastname = task.getResult().getString("lastName");
+                        String getAge = task.getResult().getString("age");
+                        String getBio = task.getResult().getString("bio");
+                        DocumentSnapshot documentSnapshot = task.getResult();
+
+//                        Uri mainImageUri = Uri.parse(image);
+//                        setupName.setEnabled(false); //cant change name
+                        userName.setText(name+" "+getlastname);
+                        //Can add Placeholder if needed blog prt 6 25mns
+                        Glide.with(MainActivity.this).load(image).into(drawerImage);
+
+                    }
+                } else {
+
+                    String error = task.getException().getMessage();
+                    Toast.makeText(MainActivity.this, "Error: " + error, Toast.LENGTH_LONG).show();
+
+                }
+            }
+        });
     }
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
