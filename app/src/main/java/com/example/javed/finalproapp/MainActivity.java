@@ -52,8 +52,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //check if user has completed profile
         mAuth = FirebaseAuth.getInstance();
         firebaseFirestore = FirebaseFirestore.getInstance();
-        userID = mAuth.getCurrentUser().getUid();
-        final String email = mAuth.getCurrentUser().getEmail();
+//        userID = mAuth.getCurrentUser().getUid();
+//        final String email = mAuth.getCurrentUser().getEmail();
 
 
         //add toolbar to the main
@@ -78,36 +78,36 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawerImage = header.findViewById(R.id.drawar_profile_image);
         userName = header.findViewById(R.id.drawar_username);
         userEmail = header.findViewById(R.id.drawar_useremail);
-        //getting data
-        firebaseFirestore.collection("Users").document(userID).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-
-                    if (task.getResult().exists()) {
-                        String name = task.getResult().getString("name");
-                        String image = task.getResult().getString("image");
-                        String getlastname = task.getResult().getString("lastName");
-                        String getAge = task.getResult().getString("age");
-                        String getBio = task.getResult().getString("bio");
-                        DocumentSnapshot documentSnapshot = task.getResult();
-
-//                        Uri mainImageUri = Uri.parse(image);
-//                        setupName.setEnabled(false); //cant change name
-                        userName.setText(name+" "+getlastname);
-                        userEmail.setText(email);
-                        //Can add Placeholder if needed blog prt 6 25mns
-                        Glide.with(MainActivity.this).load(image).into(drawerImage);
-
-                    }
-                } else {
-
-                    String error = task.getException().getMessage();
-                    Toast.makeText(MainActivity.this, "Error: " + error, Toast.LENGTH_LONG).show();
-
-                }
-            }
-        });
+//        //getting data
+//        firebaseFirestore.collection("Users").document(userID).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+//            @Override
+//            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+//                if (task.isSuccessful()) {
+//
+//                    if (task.getResult().exists()) {
+//                        String name = task.getResult().getString("name");
+//                        String image = task.getResult().getString("image");
+//                        String getlastname = task.getResult().getString("lastName");
+//                        String getAge = task.getResult().getString("age");
+//                        String getBio = task.getResult().getString("bio");
+//                        DocumentSnapshot documentSnapshot = task.getResult();
+//
+////                        Uri mainImageUri = Uri.parse(image);
+////                        setupName.setEnabled(false); //cant change name
+//                        userName.setText(name+" "+getlastname);
+//                        userEmail.setText(email);
+//                        //Can add Placeholder if needed blog prt 6 25mns
+//                        Glide.with(MainActivity.this).load(image).into(drawerImage);
+//
+//                    }
+//                } else {
+//
+//                    String error = task.getException().getMessage();
+//                    Toast.makeText(MainActivity.this, "Error: " + error, Toast.LENGTH_LONG).show();
+//
+//                }
+//            }
+//        });
     }
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -191,6 +191,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void getUserProComplete() {
         String user_id = mAuth.getCurrentUser().getUid();
+        final String email = mAuth.getCurrentUser().getEmail();
+
         firebaseFirestore.collection("Users").document(user_id).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -202,6 +204,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                      Intent sIntent = new Intent(MainActivity.this, SetupActivity.class);
                      startActivity(sIntent);
                      finish();
+                 }
+                 else {
+                     String name = task.getResult().getString("name");
+                        String image = task.getResult().getString("image");
+                        String getlastname = task.getResult().getString("lastName");
+////                        String getAge = task.getResult().getString("age");
+////                        String getBio = task.getResult().getString("bio");
+////                        DocumentSnapshot documentSnapshot = task.getResult();
+////                        Uri mainImageUri = Uri.parse(image);
+////                        setupName.setEnabled(false); //cant change name
+                        userName.setText(name+" "+getlastname);
+                        userEmail.setText(email);
+//                        //Can add Placeholder if needed blog prt 6 25mns
+                        Glide.with(MainActivity.this).load(image).into(drawerImage);
                  }
              }else {
                  String error = task.getException().getMessage();
