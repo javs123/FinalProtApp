@@ -71,7 +71,7 @@ public class ProfileActivity extends AppCompatActivity {
         textViewAge = findViewById(R.id.profile_age);
         textViewGender = findViewById(R.id.profile_gender);
         textViewInterests = findViewById(R.id.profile_interests);
-        
+
         userLikebtn = findViewById(R.id.like_btn_show);
         userLikecount = findViewById(R.id.user_like_count_show);
 
@@ -102,7 +102,7 @@ public class ProfileActivity extends AppCompatActivity {
 
                         //mainImageUri = Uri.parse(image);
                         //setupName.setEnabled(false); //cant change name
-                        textViewName.setText(name + " "+getlastname);
+                        textViewName.setText(name + " " + getlastname);
                         textViewAge.setText(getAge);
                         textViewBio.setText(getBio);
                         textViewGender.setText(getGender);
@@ -124,19 +124,19 @@ public class ProfileActivity extends AppCompatActivity {
 
 
         //get like count
-        firebaseFirestore.collection("Users/"+user_id +"/Likes").addSnapshotListener(ProfileActivity.this,new EventListener<QuerySnapshot>() {
+        firebaseFirestore.collection("Users/" + user_id + "/Likes").addSnapshotListener(ProfileActivity.this, new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
                 String countLikes;
-                if (!queryDocumentSnapshots.isEmpty()){
+                if (!queryDocumentSnapshots.isEmpty()) {
 
                     int count = queryDocumentSnapshots.size();
                     countLikes = count + " Likes";
                     userLikecount.setText(countLikes);
 
 
-                }else {
-                    countLikes = 0+" Likes";
+                } else {
+                    countLikes = 0 + " Likes";
                     userLikecount.setText(countLikes);
                 }
 
@@ -144,15 +144,13 @@ public class ProfileActivity extends AppCompatActivity {
         });
 
 
-
         setupEditBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent edit = new Intent(ProfileActivity.this,SetupActivity.class);
+                Intent edit = new Intent(ProfileActivity.this, SetupActivity.class);
                 startActivity(edit);
             }
         });
-
 
 
     }

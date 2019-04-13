@@ -115,8 +115,8 @@
 
     <ImageView
         android:id="@+id/like_btn_show"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toBottomOf="@+id/pro_user_image"
@@ -127,7 +127,7 @@
         android:id="@+id/user_like_count_show"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="8dp"
         android:text="0 Likes"
         app:layout_constraintBottom_toBottomOf="@+id/like_btn_show"
         app:layout_constraintStart_toEndOf="@+id/like_btn_show" />

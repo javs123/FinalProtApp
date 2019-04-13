@@ -17,12 +17,17 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.annotation.Nullable;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -30,18 +35,17 @@ public class UserRecyclerAdapter extends RecyclerView.Adapter<UserRecyclerAdapte
 
     private OnItemClickLister listener;
 
-
     public List<Users> users_list;
-    public  Context context;
+    public Context context;
 
-    public UserRecyclerAdapter(List<Users> users_list){
+    public UserRecyclerAdapter(List<Users> users_list) {
         this.users_list = users_list;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.single_user_list_item, viewGroup,false);
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.single_user_list_item, viewGroup, false);
         context = viewGroup.getContext();
 
 
@@ -54,8 +58,7 @@ public class UserRecyclerAdapter extends RecyclerView.Adapter<UserRecyclerAdapte
         final Users mUsers = users_list.get(i);
 
 
-
-       String desc_data = mUsers.getBio();
+        String desc_data = mUsers.getBio();
         viewHolder.setDescText(desc_data);
 
         String profileImage = mUsers.getImage();
@@ -63,20 +66,17 @@ public class UserRecyclerAdapter extends RecyclerView.Adapter<UserRecyclerAdapte
 
         String userName = mUsers.getName();
         String userLastname = mUsers.getLastName();
-        String setName = userName+" " +userLastname;
+        String setName = userName + " " + userLastname;
         viewHolder.setNameText(setName);
 
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                SharedPreferences.Editor editor = context.getSharedPreferences("userID",Context.MODE_PRIVATE).edit();
-//                editor.putString("proID", mUsers.getUserID());
-//                editor.apply();
+
                 listener.onItemClick(mUsers.getUserID());
 
             }
         });
-
 
 
     }
@@ -86,7 +86,7 @@ public class UserRecyclerAdapter extends RecyclerView.Adapter<UserRecyclerAdapte
         return users_list.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder {
         public CircleImageView mImageView;
         public TextView mNameTexView;
 
@@ -94,41 +94,38 @@ public class UserRecyclerAdapter extends RecyclerView.Adapter<UserRecyclerAdapte
         private TextView descView;
 
 
-
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             mView = itemView;
 
 
-
-
-            ///////////////////////// PASSING DATA TO ONCLICK
-
-
         }
 
 
-        public void setDescText(String descText){
+        public void setDescText(String descText) {
             descView = mView.findViewById(R.id.main_user_bio);
             descView.setText(descText);
         }
-        public void setmImageView(String mImView){
+
+        public void setmImageView(String mImView) {
             mImageView = mView.findViewById(R.id.main_user_image);
             Glide.with(context).load(mImView).into(mImageView);
         }
-        public void setNameText(String userName){
+
+        public void setNameText(String userName) {
             mNameTexView = mView.findViewById(R.id.main_user_name);
             mNameTexView.setText(userName);
         }
     }
 
 
-    public interface OnItemClickLister{
+    public interface OnItemClickLister {
 
         void onItemClick(String userID);
 
     }
-    public void setOnItemClickLister(OnItemClickLister lister){
+
+    public void setOnItemClickLister(OnItemClickLister lister) {
         this.listener = lister;
     }
 }
