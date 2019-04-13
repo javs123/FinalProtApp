@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ProfileActivity"
-    android:background="@color/colorPrimaryDark">
+    android:background="@android:color/white"
+    tools:context=".ProfileActivity">
 
     <ProgressBar
         android:id="@+id/profile_progressBar"
@@ -36,13 +36,11 @@
         android:id="@+id/pro_user_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="24dp"
         android:layout_marginTop="24dp"
-        android:layout_marginEnd="8dp"
-        android:text="TextView"
-        android:textColor="@android:color/white"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:text="Name"
+        android:textColor="@android:color/black"
+        android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/pro_user_image" />
 
@@ -50,12 +48,12 @@
         android:id="@+id/pro_user_bio"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="24dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="8dp"
-        android:text="TextView"
-        android:textAlignment="center"
-        android:textColor="@android:color/white"
+        android:text="Bio"
+        android:textAlignment="textStart"
+        android:textColor="@android:color/black"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -65,15 +63,73 @@
         android:id="@+id/pro_edit_setup_btn"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
+        android:layout_marginBottom="50dp"
         android:background="@color/colorAccent"
         android:padding="20dp"
-        android:text="Button"
+        android:text="Edit Profile"
         android:textAllCaps="false"
         android:textColor="@android:color/white"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/profile_gender"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="24dp"
+        android:text="Gender"
+        android:textColor="@android:color/black"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pro_user_image" />
+
+    <TextView
+        android:id="@+id/profile_age"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="8dp"
+        android:text="Age"
+        android:textColor="@android:color/black"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toStartOf="@+id/profile_gender"
+        app:layout_constraintTop_toBottomOf="@+id/pro_user_image" />
+
+    <TextView
+        android:id="@+id/profile_interests"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="8dp"
+        android:text="Interests"
+        android:textColor="@android:color/black"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pro_user_bio" />
+
+    <ImageView
+        android:id="@+id/like_btn_show"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/pro_user_image"
+        app:layout_constraintEnd_toEndOf="@+id/pro_user_image"
+        app:srcCompat="@mipmap/action_like_accent" />
+
+    <TextView
+        android:id="@+id/user_like_count_show"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:text="0 Likes"
+        app:layout_constraintBottom_toBottomOf="@+id/like_btn_show"
+        app:layout_constraintStart_toEndOf="@+id/like_btn_show" />
 
 </android.support.constraint.ConstraintLayout>
