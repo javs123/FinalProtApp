@@ -83,8 +83,6 @@ public class HomeFragment extends Fragment {
         user_list_view.setHasFixedSize(true);
         user_list_view.setLayoutManager(new LinearLayoutManager(getActivity()));
         user_list_view.setAdapter(userRecyclerAdapter);
-
-
         FirebaseUser currentUser = mAuth.getCurrentUser();
         final String userID = currentUser.getUid();
         usersRef.document(userID).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -118,7 +116,6 @@ public class HomeFragment extends Fragment {
         userRecyclerAdapter.setOnItemClickLister(new UserRecyclerAdapter.OnItemClickLister() {
             @Override
             public void onItemClick(String userID) {
-
                 Intent userProfile = new Intent(getActivity(), UserProfileActivity.class);
                 userProfile.putExtra("userID", userID);
                 startActivity(userProfile);
@@ -131,8 +128,8 @@ public class HomeFragment extends Fragment {
     }
 
 
-    private void getUser(String f, final String userID) {
-        usersRef.whereArrayContains("interest", f)
+    private void getUser(String interst, final String userID) {
+        usersRef.whereArrayContains("interest", interst)
                 .get().addOnCompleteListener(getActivity(), new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {

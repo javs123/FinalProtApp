@@ -72,13 +72,9 @@ public class UserRecyclerAdapter extends RecyclerView.Adapter<UserRecyclerAdapte
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 listener.onItemClick(mUsers.getUserID());
-
             }
         });
-
-
     }
 
     @Override
@@ -97,8 +93,6 @@ public class UserRecyclerAdapter extends RecyclerView.Adapter<UserRecyclerAdapte
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             mView = itemView;
-
-
         }
 
 
@@ -120,11 +114,8 @@ public class UserRecyclerAdapter extends RecyclerView.Adapter<UserRecyclerAdapte
 
 
     public interface OnItemClickLister {
-
         void onItemClick(String userID);
-
     }
-
     public void setOnItemClickLister(OnItemClickLister lister) {
         this.listener = lister;
     }

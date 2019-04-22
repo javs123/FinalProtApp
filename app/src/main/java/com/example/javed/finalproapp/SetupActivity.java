@@ -50,10 +50,8 @@ public class SetupActivity extends AppCompatActivity {
 
     private CircleImageView setupImage;
     private Uri mainImageUri = null;
-
     private String user_id;
     private Boolean isChanged = false;
-
     private EditText setupName;
     private EditText setupLastname;
     private EditText setupBio;
@@ -73,7 +71,7 @@ public class SetupActivity extends AppCompatActivity {
     private String[] list_items;
     private boolean[] checkedItems;
     private ArrayList<Integer> mUserItems = new ArrayList<>();
-    private String user_interestsSelected="";
+    private String user_interestsSelected = "";
     private String SelectedGender;
 
     String youtubeUsername;
@@ -111,7 +109,6 @@ public class SetupActivity extends AppCompatActivity {
         twitterText = findViewById(R.id.twitter_username);
 
 
-
         list_items = getResources().getStringArray(R.array.user_interest);
         checkedItems = new boolean[list_items.length];
 
@@ -130,11 +127,11 @@ public class SetupActivity extends AppCompatActivity {
                 mBuilder.setMultiChoiceItems(list_items, checkedItems, new DialogInterface.OnMultiChoiceClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-                        if (isChecked){
-                            if (!mUserItems.contains(which)){
+                        if (isChecked) {
+                            if (!mUserItems.contains(which)) {
                                 mUserItems.add(which);
                             }
-                        } else if (mUserItems.contains(which)){
+                        } else if (mUserItems.contains(which)) {
                             mUserItems.remove((Integer) which);
                         }
                     }
@@ -145,9 +142,9 @@ public class SetupActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         user_interestsSelected = "";
-                        for (int i=0; i<mUserItems.size();i++){
+                        for (int i = 0; i < mUserItems.size(); i++) {
                             user_interestsSelected = user_interestsSelected + list_items[mUserItems.get(i)];
-                            if (i != mUserItems.size() -1){
+                            if (i != mUserItems.size() - 1) {
                                 user_interestsSelected = user_interestsSelected + ", ";
                             }
                         }
@@ -163,7 +160,7 @@ public class SetupActivity extends AppCompatActivity {
                 mBuilder.setNeutralButton("Clear All", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        for (int i = 0; i < checkedItems.length; i++){
+                        for (int i = 0; i < checkedItems.length; i++) {
                             checkedItems[i] = false;
                             mUserItems.clear();
                             showInterest.setText(getString(R.string.user_interests));
@@ -193,7 +190,7 @@ public class SetupActivity extends AppCompatActivity {
                 builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Toast.makeText(SetupActivity.this, "Selected: "+SelectedGender, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(SetupActivity.this, "Selected: " + SelectedGender, Toast.LENGTH_SHORT).show();
                         addGenderbtn.setText(SelectedGender);
                     }
                 });
@@ -213,9 +210,9 @@ public class SetupActivity extends AppCompatActivity {
         yotubeText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if (yotubeText.getText()!=null){
-                    if(URLUtil.isValidUrl(yotubeText.getText().toString()) == false){
-                        yotubeText.setError("Not URL");
+                if (yotubeText.getText() != null) {
+                    if (URLUtil.isValidUrl(yotubeText.getText().toString()) == false) {
+                        yotubeText.setError("Not a YouTube Profile URL");
                     }
                 }
             }
@@ -236,13 +233,12 @@ public class SetupActivity extends AppCompatActivity {
                 youtubeUsername = yotubeText.getText().toString();
 
 
-
                 String[] interestArray = user_interestsSelected.split("\\s*,\\s*");
                 final List<String> interests = Arrays.asList(interestArray);
 
                 setupProgrss.setVisibility(View.VISIBLE);
                 //brake in separate ifs
-                if (!TextUtils.isEmpty(user_name) && mainImageUri != null&&interestArray[0]!="") {
+                if (!TextUtils.isEmpty(user_name) && mainImageUri != null && interestArray[0] != "") {
 
                     if (isChanged) {
                         final StorageReference image_path = storageReference.child("profile_images").child(user_id + ".jpg");
@@ -262,7 +258,7 @@ public class SetupActivity extends AppCompatActivity {
                             public void onComplete(@NonNull Task<Uri> task) {
                                 if (task.isSuccessful()) {
                                     setupProgrss.setVisibility(View.INVISIBLE);
-                                    storeFirestore(task, user_name, user_lastname, interests,addGender,instaUsername,twitterUsername,snapchatUsername,youtubeUsername);
+                                    storeFirestore(task, user_name, user_lastname, interests, addGender, instaUsername, twitterUsername, snapchatUsername, youtubeUsername);
                                 } else {
                                     setupProgrss.setVisibility(View.INVISIBLE);
                                     String error = task.getException().getMessage();
@@ -283,7 +279,7 @@ public class SetupActivity extends AppCompatActivity {
                     else {
 
                         setupProgrss.setVisibility(View.INVISIBLE);
-                        storeFirestore(null, user_name, user_lastname, interests,addGender,instaUsername,twitterUsername,snapchatUsername,youtubeUsername);
+                        storeFirestore(null, user_name, user_lastname, interests, addGender, instaUsername, twitterUsername, snapchatUsername, youtubeUsername);
                     }
                 } else {
                     setupProgrss.setVisibility(View.INVISIBLE);
@@ -303,9 +299,8 @@ public class SetupActivity extends AppCompatActivity {
                 if (TextUtils.isEmpty(user_name) && mainImageUri == null) {
 
                     Toast.makeText(SetupActivity.this, "Please Complete Profile", Toast.LENGTH_SHORT).show();
-                }
-                else {
-                    Intent home = new Intent(SetupActivity.this,MainActivity.class);
+                } else {
+                    Intent home = new Intent(SetupActivity.this, MainActivity.class);
                     startActivity(home);
                     finish();
                 }
@@ -316,7 +311,6 @@ public class SetupActivity extends AppCompatActivity {
         setupImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     if (ContextCompat.checkSelfPermission(SetupActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                         Toast.makeText(SetupActivity.this, "permission Granted", Toast.LENGTH_LONG).show();
@@ -329,9 +323,6 @@ public class SetupActivity extends AppCompatActivity {
                 }
             }
         });
-
-
-
 
 
         //get Profile information from database to show
@@ -356,12 +347,11 @@ public class SetupActivity extends AppCompatActivity {
 
                         DocumentSnapshot documentSnapshot = task.getResult();
                         List<String> inters = (List<String>) documentSnapshot.get("interest");
-                        for (int i =0; i<inters.size();i++){
-                            user_interestsSelected += inters.get(i)+", ";
+                        for (int i = 0; i < inters.size(); i++) {
+                            user_interestsSelected += inters.get(i) + ", ";
                         }
 
                         mainImageUri = Uri.parse(image);
-                        setupName.setEnabled(false); //cant change name
                         setupName.setText(name);
                         setupLastname.setText(getlastname);
                         setupAge.setText(getAge);
@@ -391,7 +381,7 @@ public class SetupActivity extends AppCompatActivity {
         });
     }
 
-    private void storeFirestore(Task<Uri> task, String user_name, String user_lastname, List<String> interests, String addGender,String instagramText,String twitterText,String snapchatText,String yotubeText) {
+    private void storeFirestore(Task<Uri> task, String user_name, String user_lastname, List<String> interests, String addGender, String instagramText, String twitterText, String snapchatText, String yotubeText) {
 
         String user_bio = setupBio.getText().toString();
         String user_age = setupAge.getText().toString();
@@ -411,12 +401,12 @@ public class SetupActivity extends AppCompatActivity {
         userMap.put("age", user_age);
         userMap.put("image", download_url.toString());
         userMap.put("userID", user_id);
-        userMap.put("interest",interests);
-        userMap.put("gender",addGender);
-        userMap.put("instagramUsername",instagramText);
-        userMap.put("twitterUsername",twitterText);
-        userMap.put("snapchatUsername",snapchatText);
-        userMap.put("youtubeUsername",yotubeText);
+        userMap.put("interest", interests);
+        userMap.put("gender", addGender);
+        userMap.put("instagramUsername", instagramText);
+        userMap.put("twitterUsername", twitterText);
+        userMap.put("snapchatUsername", snapchatText);
+        userMap.put("youtubeUsername", yotubeText);
 
         //Add Image and Name to Database
         firebaseFirestore.collection("Users").document(user_id).set(userMap).addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -441,7 +431,7 @@ public class SetupActivity extends AppCompatActivity {
     private void imagePicker() {
         CropImage.activity()
                 .setGuidelines(CropImageView.Guidelines.ON)
-                .setMinCropResultSize(512,512)
+                .setMinCropResultSize(512, 512)
                 .setAspectRatio(1, 1)
                 .start(SetupActivity.this);
     }

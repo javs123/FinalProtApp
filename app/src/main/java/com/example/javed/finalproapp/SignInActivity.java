@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -33,31 +34,24 @@ public class SignInActivity extends AppCompatActivity {
         mSignInBtn = findViewById(R.id.signin_btn);
         mSignInProgress = new ProgressDialog(this);
 
-
-
         //firebase auth
         mAuth = FirebaseAuth.getInstance();
-
         mSignInBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 String SignInEmailInput = mSignInEmail.getText().toString();
                 String SignInPasswordInput = mSignInPassword.getText().toString();
+                if (TextUtils.isEmpty(SignInEmailInput)) {
+                    Toast.makeText(SignInActivity.this, "Please Enter Email and Try Again", Toast.LENGTH_LONG).show();
 
-
-                if(TextUtils.isEmpty(SignInEmailInput)){
-                    Toast.makeText(SignInActivity.this,"Please Enter Email and Try Again", Toast.LENGTH_LONG).show();
-
-                }else if(TextUtils.isEmpty(SignInPasswordInput)) {
-                    Toast.makeText(SignInActivity.this,"Please Enter Password and Try Again", Toast.LENGTH_LONG).show();
-                }
-                else{
+                } else if (TextUtils.isEmpty(SignInPasswordInput)) {
+                    Toast.makeText(SignInActivity.this, "Please Enter Password and Try Again", Toast.LENGTH_LONG).show();
+                } else {
                     mSignInProgress.setTitle("Signing In");
                     mSignInProgress.setMessage("Please Wait");
                     mSignInProgress.setCanceledOnTouchOutside(false);
                     mSignInProgress.show();
-                    signInUser(SignInEmailInput,SignInPasswordInput);
+                    signInUser(SignInEmailInput, SignInPasswordInput);
                 }
 
 
@@ -73,18 +67,17 @@ public class SignInActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            Toast.makeText(SignInActivity.this,"Successful", Toast.LENGTH_LONG).show();
+                            Toast.makeText(SignInActivity.this, "Successful", Toast.LENGTH_LONG).show();
                             Intent completeProfileActivity = new Intent(SignInActivity.this, MainActivity.class);
-                            completeProfileActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            completeProfileActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             startActivity(completeProfileActivity);
                             finish();
                         } else {
                             mSignInProgress.hide();
                             String getError = task.getException().getMessage();
-                            Toast.makeText(SignInActivity.this,"ERROR: "+getError, Toast.LENGTH_LONG).show();
+                            Toast.makeText(SignInActivity.this, "ERROR: " + getError, Toast.LENGTH_LONG).show();
                         }
                     }
                 });
-
     }
 }

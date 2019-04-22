@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -46,12 +47,11 @@ public class RegisterActivity extends AppCompatActivity {
                 String email = mEmail.getText().toString();
                 String password = mPassword.getText().toString();
 
-                if(TextUtils.isEmpty(email)){
-                    Toast.makeText(RegisterActivity.this,"Please Enter Email", Toast.LENGTH_LONG).show();
-                }else if (TextUtils.isEmpty(password)){
-                    Toast.makeText(RegisterActivity.this,"Please Enter Password", Toast.LENGTH_LONG).show();
-                }
-                else {
+                if (TextUtils.isEmpty(email)) {
+                    Toast.makeText(RegisterActivity.this, "Please Enter Email", Toast.LENGTH_LONG).show();
+                } else if (TextUtils.isEmpty(password)) {
+                    Toast.makeText(RegisterActivity.this, "Please Enter Password", Toast.LENGTH_LONG).show();
+                } else {
                     mProgress.setTitle("Registering User");
                     mProgress.setMessage("Wait while we set up your account");
                     mProgress.setCanceledOnTouchOutside(false);
@@ -64,28 +64,26 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void createAccount(String email, String password) {
-
         mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            mProgress.dismiss();
-                            Toast.makeText(RegisterActivity.this,"Register Successful", Toast.LENGTH_LONG).show();
-                            setup();
-                        } else {
-                            mProgress.hide();
-                            String error;
-                            error = task.getException().getMessage();
-                            Toast.makeText(RegisterActivity.this,"ERROR: "+error, Toast.LENGTH_LONG).show();
-                        }
-                    }
-                });
-
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if (task.isSuccessful()) {
+                    mProgress.dismiss();
+                    Toast.makeText(RegisterActivity.this, "Register Successful", Toast.LENGTH_LONG).show();
+                    setup();
+                } else {
+                    mProgress.hide();
+                    String error;
+                    error = task.getException().getMessage();
+                    Toast.makeText(RegisterActivity.this, "ERROR: " + error, Toast.LENGTH_LONG).show();
+                }
+            }
+        });
     }
 
     private void setup() {
         Intent completeProfileActivity = new Intent(RegisterActivity.this, CompleteProfileActivity.class);
-        completeProfileActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        completeProfileActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(completeProfileActivity);
         finish();
     }
