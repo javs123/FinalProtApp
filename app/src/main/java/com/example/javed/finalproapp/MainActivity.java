@@ -51,46 +51,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private NavigationView navigationView;
     private FirebaseFirestore firebaseFirestore;
 
-    private String ageFilter;
-    private String genderFilter;
-
-    private String userID;
-
     private CircleImageView drawerImage;
     private TextView userName;
     private TextView userEmail;
-
-
-    private List<Users> usersList = new ArrayList<>();
-    private RecyclerView recyclerView;
-    private UserRecyclerAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-//        recyclerView = (RecyclerView) findViewById(R.id.other_user_list_view);
-//
-//        mAdapter = new UserRecyclerAdapter(usersList);
-//        recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
-//        recyclerView.setAdapter(mAdapter);
-
-
         //check if user has completed profile
         mAuth = FirebaseAuth.getInstance();
         firebaseFirestore = FirebaseFirestore.getInstance();
-
-//        userID = mAuth.getCurrentUser().getUid();
-//        final String email = mAuth.getCurrentUser().getEmail();
-
 
         //add toolbar to the main
         Toolbar toolbar = findViewById(R.id.toolbarP);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("FriendMe");
-
 
         //add the drawer to the main
         drawer = findViewById(R.id.drawer_layout);
@@ -136,97 +113,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-//
-//    ///////////toolbar menu btns
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        getMenuInflater().inflate(R.menu.menu_buttons,menu);
-//
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//
-//        switch (item.getItemId()){
-//            case R.id.action_filter_btn:
-//                //filter users by age , gender
-//
-//               // Toast.makeText(this, "Filter", Toast.LENGTH_SHORT).show();
-//                openDialog();
-//
-//                break;
-//            case R.id.action_search_btn:
-//
-//                View search_input = findViewById(R.id.action_search_btn);
-//
-//
-//
-//                /// search user by #tags
-//                break;
-//        }
-//
-//        return true;
-//
-//    }
-//
-//    private void openDialog() {
-//
-//
-//        FilterDialog filterDialog = new FilterDialog();
-//        filterDialog.show(getSupportFragmentManager(),"Filter Dialog");
-//
-//    }
-//
-//    @Override
-//    public void getFilterResultBoth(String age, String gender) {
-//
-//        ageFilter = age;
-//        genderFilter = gender;
-//
-//
-//        Toast.makeText(this, "Both "+ageFilter+genderFilter, Toast.LENGTH_SHORT).show();
-//
-//    }
-//
-//    @Override
-//    public void getFilterResultAge(String age) {
-//
-//        ageFilter = age;
-//        Toast.makeText(this, "Age "+ageFilter, Toast.LENGTH_SHORT).show();
-//    }
-//
-//    @Override
-//    public void getFilterResultGender(String gender) {
-//        genderFilter = gender;
-//
-////        firebaseFirestore.collection("Users").get().addOnCompleteListener(MainActivity.this,new OnCompleteListener<QuerySnapshot>() {
-////            @Override
-////            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-////                if (task.isSuccessful()) {
-////                    for (QueryDocumentSnapshot document : task.getResult()) {
-////                        Log.d(TAG, document.getId() + " => " + document.getData());
-////                        if (document.getData().get("userID").equals(userID)) {
-////                            Toast.makeText(MainActivity.this, "current", Toast.LENGTH_SHORT).show();
-////
-////
-////                        } else {
-////                            Users usdd = document.toObject(Users.class);
-////                            usersList.add(usdd);
-////                            mAdapter.notifyDataSetChanged();
-////                        }
-////                    }
-////                } else {
-////                    Toast.makeText(MainActivity.this, "No Interest", Toast.LENGTH_SHORT).show();
-////                }
-////            }
-////        });
-//
-//
-//        Toast.makeText(this, "Gender", Toast.LENGTH_SHORT).show();
-//    }
 
-    ///////////////////////////////////end menu btn toolbar
     @Override
     public void onBackPressed() {
         if (drawer.isDrawerOpen(GravityCompat.START)) {

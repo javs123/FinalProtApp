@@ -3,7 +3,9 @@ package com.example.javed.finalproapp;
 public class Users {
 
     public String name, lastName, image, bio, userID;
-    public Users(){}
+
+    public Users() {
+    }
 
     public Users(String name, String lastName, String image, String bio, String userID) {
         this.name = name;

@@ -116,6 +116,7 @@ public class UserRecyclerAdapter extends RecyclerView.Adapter<UserRecyclerAdapte
     public interface OnItemClickLister {
         void onItemClick(String userID);
     }
+
     public void setOnItemClickLister(OnItemClickLister lister) {
         this.listener = lister;
     }

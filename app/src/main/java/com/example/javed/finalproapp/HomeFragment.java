@@ -55,11 +55,7 @@ public class HomeFragment extends Fragment {
     private FirebaseFirestore firebaseFirestore;
     private CollectionReference usersRef;
     private FirebaseAuth mAuth;
-    private String logout;
     private String firstInterst;
-    Users users;
-    private String ageFilter;
-    private String genderFilter;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -73,7 +69,6 @@ public class HomeFragment extends Fragment {
 
         users_list = new ArrayList<>();
         user_list_view = view.findViewById(R.id.other_user_list_view);
-        logout = getResources().getString(R.string.logOut);
 
         firebaseFirestore = FirebaseFirestore.getInstance();
         usersRef = firebaseFirestore.collection("Users");
@@ -151,73 +146,6 @@ public class HomeFragment extends Fragment {
             }
         });
     }
-
-    ///////////toolbar menu btns
-
-//    @Override
-//    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-//        getActivity().getMenuInflater().inflate(R.menu.menu_buttons,menu);
-//
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item,) {
-//
-//        switch (item.getItemId()){
-//            case R.id.action_filter_btn:
-//                //filter users by age , gender
-//
-//                // Toast.makeText(this, "Filter", Toast.LENGTH_SHORT).show();
-//                openDialog();
-//
-//                break;
-//            case R.id.action_search_btn:
-//
-//                //View search_input = findViewById(R.id.action_search_btn);
-//
-//
-//
-//                /// search user by #tags
-//                break;
-//        }
-//
-//        return true;
-//
-//    }
-//
-//    private void openDialog() {
-//
-//
-//        FilterDialog filterDialog = new FilterDialog();
-//        filterDialog.show(getActivity().getSupportFragmentManager(),"Filter Dialog");
-//
-//    }
-//
-//    @Override
-//    public void getFilterResultBoth(String age, String gender) {
-//
-//        ageFilter = age;
-//        genderFilter = gender;
-//
-//        Toast.makeText(getActivity(), "Both "+ageFilter+genderFilter, Toast.LENGTH_SHORT).show();
-//
-//    }
-//
-//    @Override
-//    public void getFilterResultAge(String age) {
-//
-//        ageFilter = age;
-//        Toast.makeText(getActivity(), "Age "+ageFilter, Toast.LENGTH_SHORT).show();
-//    }
-//
-//    @Override
-//    public void getFilterResultGender(String gender) {
-//        genderFilter = gender;
-//
-//        Toast.makeText(getActivity(), "Gender", Toast.LENGTH_SHORT).show();
-//    }
-
-    ///////////////////////////////////end menu btn toolbar
 
 
 }
